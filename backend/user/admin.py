@@ -9,7 +9,7 @@ class CustomUserAdmin(admin.ModelAdmin):
     model = CustomUser
     list_display = ['id', 'username', 'email', 'birth_date', 'is_staff', 'is_active', 'last_login', 'date_joined', ]
     #readonly_fields = ['friend', ]
-    fields = ['username', 'first_name', 'last_name', 'email', 'birth_date', 'profile_img', 'friend', ]#'groups', ]
+    fields = ['username', 'first_name', 'last_name', 'email', 'birth_date', 'relationship', 'friend', 'who_am_I', 'profile_img', ]
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
