@@ -12,7 +12,7 @@ class EventDayAdmin(admin.ModelAdmin):
     inlines = (ParticipantAdmin, )
     model = EventDay
     list_display = ['id', 'event_name', 'author', 'date_time', 'location', ]
-    fields = ['author', 'event_name', 'event_description', 'date_time', 'location', ]#'participants', ]
+    fields = ['author', 'event_name', 'event_description', 'date_time', 'location', 'marmalade', ]
 
 
 admin.site.register(EventDay, EventDayAdmin)
