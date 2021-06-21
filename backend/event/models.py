@@ -11,22 +11,20 @@ class EventDay(models.Model):
     location = models.CharField(max_length=150)
     marmalade = models.BooleanField(default=False)
 
-
-
     def __str__(self):
         return self.event_name
 
 
 class Participant(models.Model):
     event = models.ForeignKey(to=EventDay, on_delete=models.CASCADE, related_name='event_day')
-    participant = models.OneToOneField(to=CustomUser, on_delete=models.DO_NOTHING, null=True, blank=True,
-                                       related_name='participant_in_event',)
-    drawn = models.OneToOneField(to=CustomUser, on_delete=models.DO_NOTHING, null=True, blank=True,
-                                 default=None, related_name='participant_drawn', )
-
-    def __str__(self):
-        return f"{self.participant} going to {self.event}"
+    participant = models.ForeignKey(to=CustomUser, on_delete=models.DO_NOTHING, null=True, blank=True,
+                                    related_name='participant_in_event',)
+    drawn = models.ForeignKey(to=CustomUser, on_delete=models.DO_NOTHING, null=True, blank=True,
+                              default=None, related_name='participant_drawn', )
 
     class Meta:
         unique_together = (('event', 'participant'),
                            ('participant', 'drawn'), )
+
+    def __str__(self):
+        return f"{self.participant} going to {self.event}"
