@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',  # ADDED BY DEVELOPER
     'user.apps.UserConfig',  # ADDED BY DEVELOPER
     'frontend.apps.FrontendConfig',  # ADDED BY DEVELOPER
+    'event.apps.EventConfig',  # ADDED BY DEVELOPER
 ]
 
 MIDDLEWARE = [
