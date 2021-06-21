@@ -14,6 +14,11 @@ class EventDay(models.Model):
     def __str__(self):
         return self.event_name
 
+    def save(self, *args, **kwargs):
+        super(EventDay, self).save(*args, **kwargs )
+        participant = Participant(event=self, participant=self.author)
+        participant.save()
+
 
 class Participant(models.Model):
     event = models.ForeignKey(to=EventDay, on_delete=models.CASCADE, related_name='event_day')
