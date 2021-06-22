@@ -3,8 +3,8 @@ from user.models import CustomUser
 
 
 class EventDay(models.Model):
-    author = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, related_name='creator',
-                               default='custom_user_here', )
+    author = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE,
+                               related_name='creator', null=True, blank=True, )
     event_name = models.CharField(max_length=47)
     event_description = models.CharField(max_length=250)
     date_time = models.DateTimeField()
@@ -32,7 +32,9 @@ class Participant(models.Model):
 
     class Meta:
         unique_together = (('event', 'participant'),
-                           ('participant', 'drawn'),)
+                           ('event', 'drawn'), )
 
     def __str__(self):
         return f"{self.participant} going to {self.event}"
+
+

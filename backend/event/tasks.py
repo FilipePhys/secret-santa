@@ -6,20 +6,23 @@ from user.models import CustomUser
 
 class Draw:
 
-    # @classmethod
-    # def save_draw(cls, event_id):
-    #     participant, participant_drawn = cls.drawing_marmalade(event_id)
-    #     for i, id_participant in enumerate(participant_drawn):
-    #         user = CustomUser.objects.get(pk=id_participant)
-    #         Participant.objects.get(participant=participant[i])
-    #         participant.drawn == user
-    #         Participant.save()
+    @classmethod
+    def save_draw(cls, my_event_id):
+        event_filter = Participant.objects.filter(event_id=my_event_id)
+        marmalade = EventDay.objects.get(pk=my_event_id).marmalade
 
+        if marmalade:
+            print(marmalade)
+            participant, participant_drawn = cls.drawing_marmalade(my_event_id)
+        else:
+            participant, participant_drawn = cls.drawing(my_event_id)
+        for i, participant_instance in enumerate(event_filter):
+            participant_instance.drawn_id = participant_drawn[i]
+            participant_instance.save()
 
     @classmethod
-    def drawing_marmalade(cls, event_id):
-        participant = cls.read_event_participant_id(event_id)
-        print(participant)
+    def drawing_marmalade(cls, my_event_id):
+        participant = cls.read_event_participant_id(my_event_id)
         validation = True
         while validation:
             participant_drawn = random.sample(participant, len(participant))
@@ -40,8 +43,8 @@ class Draw:
         return participant, participant_drawn
 
     @classmethod
-    def drawing(cls, event_id):
-        participant = cls.read_event_participant_id(event_id)
+    def drawing(cls, my_event_id):
+        participant = cls.read_event_participant_id(my_event_id)
         validation = True
         while validation:
             print('o')
@@ -58,11 +61,11 @@ class Draw:
         return participant, participant_drawn
 
     @classmethod
-    def read_event_participant_id(cls, event_id):
+    def read_event_participant_id(cls, my_event_id):
         try:
-            event = EventDay.objects.get(pk=event_id)
+            event = EventDay.objects.get(pk=my_event_id)
             people_obj = event.event_day.all()
             event_sets = [p_id.participant_id for p_id in people_obj]
-        except "PK_DoNotExistError":
+        except "PKDoNotExistError":
             event_sets = []
         return event_sets
