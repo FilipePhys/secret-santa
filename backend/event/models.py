@@ -1,4 +1,6 @@
 from django.db import models
+
+from event.tasks import save_draw
 from user.models import CustomUser
 
 
@@ -22,6 +24,10 @@ class EventDay(models.Model):
         else:
             super(EventDay, self).save(*args, **kwargs)
 
+    def save_draw_models(self):
+        save_draw(my_event_id=self.pk)
+        return self
+
 
 class Participant(models.Model):
     event = models.ForeignKey(to=EventDay, on_delete=models.CASCADE, related_name='event_day')
@@ -31,8 +37,7 @@ class Participant(models.Model):
                               default=None, related_name='participant_drawn', )
 
     class Meta:
-        unique_together = (('event', 'participant'),
-                           ('event', 'drawn'), )
+        unique_together = (('event', 'participant'), )
 
     def __str__(self):
         return f"{self.participant} going to {self.event}"
