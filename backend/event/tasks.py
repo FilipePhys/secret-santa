@@ -1,5 +1,5 @@
 import random
-
+from core.celery import app
 from user.models import CustomUser
 
 
@@ -61,7 +61,7 @@ def drawing(my_event_id):
     return participant, participant_drawn
 
 
-#@app.task
+@app.task
 def save_draw(my_event_id):
     from event.models import EventDay, Participant
 
